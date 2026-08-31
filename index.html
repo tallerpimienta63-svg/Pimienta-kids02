@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pimienta Kids - Panel de Producción</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Librería para la conversión a imagen -->
+    <script src="https://cloudflare.com"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Formulario de Registro Izquierdo -->
+        <div class="form-card">
+            <header class="form-header">
+                <h2>Registrar Prenda</h2>
+                <p>Añade artículos al lote de salida</p>
+            </header>
+
+            <form id="prendaForm">
+                <div class="input-group">
+                    <label for="nombrePrenda">Nombre de la Prenda</label>
+                    <input type="text" id="nombrePrenda" placeholder="Ej. CAFARENA" required>
+                </div>
+
+                <div class="row">
+                    <div class="input-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" id="cantidad" placeholder="0" min="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="colorTalla">Talla y Color</label>
+                        <input type="text" id="colorTalla" placeholder="Ej. Negro (- 2 por talla)" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="descripcion">Descripción Adicional</label>
+                    <textarea id="descripcion" rows="2" placeholder="Notas del taller..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="fotoPrenda">Foto de Muestra</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="fotoPrenda" accept="image/*">
+                        <div class="file-upload-box" id="uploadBox">
+                            <span id="fileStatus">📸 Seleccionar foto de muestra</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Añadir a la Tabla</button>
+            </form>
+        </div>
+
+        <!-- Comprobante en Formato Tabla Derecha -->
+        <div class="preview-card">
+            
+            <div id="comprobanteCaptureArea" class="comprobante-canvas">
+                
+                <div class="comprobante-header">
+                    <div class="brand-logo">
+                        <h1>Pimienta Kids</h1>
+                        <span class="brand-sub">Gestión & Sistema</span>
+                    </div>
+                    
+                    <div class="status-badge">✓ REGISTRO EXITOSO</div>
+                    
+                    <h2 class="document-title">COMPROBANTE DE PRODUCCIÓN</h2>
+                    <p class="document-date" id="comprobanteFecha">Cargando fecha...</p>
+                    
+                    <div class="ticket-divider"></div>
+                </div>
+
+                <!-- TABLA DE CONTROL MINIMALISTA -->
+                <div class="table-responsive">
+                    <table class="production-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">Muestra</th>
+                                <th>Prenda</th>
+                                <th style="width: 80px; text-align: center;">Cant.</th>
+                                <th>Detalles y Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCuerpoPrendas">
+                            <tr id="emptyRow">
+                                <td colspan="4" class="empty-state">No hay prendas registradas en la tabla.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Botones de Control -->
+            <div class="action-bar">
+                <button id="btnDownload" class="btn-download" disabled>Descargar Comprobante (PNG)</button>
+                <button id="btnReset" class="btn-secondary" onclick="limpiarTabla()">Limpiar Todo</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script src="script.js"></script>
+</html>
