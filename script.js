@@ -18,16 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Leer imagen local desde la cámara/galería
     fotoPrendaInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            fileStatus.textContent = `📸 Cargada: ${file.name.substring(0, 12)}...`;
+        const file = e.target.files;
+        if (file && file[0]) {
+            fileStatus.textContent = `📸 Cargada: ${file[0].name.substring(0, 12)}...`;
             uploadBox.style.borderColor = "#2e7d32";
             
             const reader = new FileReader();
             reader.onload = function(event) {
                 fotoTemporalBase64 = event.target.result;
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file[0]);
         }
     });
 
@@ -82,30 +82,63 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // SISTEMA DE EXPORTACIÓN DIRECTA COMPRIMIDA USANDO HTML2PDF
+    // DESCARGA DE PDF DIRECTA: SIN VENTANAS EMERGENTES Y COMPRIMIDO
     btnDownload.addEventListener("click", () => {
-        const elementoACapturar = document.getElementById("comprobanteCaptureArea");
+        const areaCaptura = document.getElementById("comprobanteCaptureArea");
         
-        // Deshabilitar temporalmente el botón para evitar clics dobles mientras procesa
-        btnDownload.textContent = "Procesando PDF...";
+        btnDownload.textContent = "Generando PDF...";
         btnDownload.disabled = true;
 
-        // Configuración de compresión y renderizado nativo para teléfonos móviles
-        const opcionesConfig = {
-            margin:       10,
-            filename:     `Produccion_PimientaKids_${hoy.toISOString().split('T')[0]}.pdf`,
-            image:        { type: 'jpeg', quality: 0.95 }, // Comprime las fotos pesadas de la cámara para no saturar memoria
-            html2canvas:  { scale: 2, useCORS: true, logging: false },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+        const { jsPDF } = window.jspdf;
 
-        // Ejecutar la exportación directa como descarga de archivo nativa en Android
-        html2pdf().set(opcionesConfig).from(elementoACapturar).save().then(() => {
-            // Reestablecer el estado del botón una vez terminada la descarga
+        html2canvas(areaCaptura, {
+            backgroundColor: "#ffffff",
+            scale: 1.5, // Balance ideal entre nitidez y ligereza para que el móvil procese rápido
+            useCORS: true,
+            allowTaint: true,
+            logging: false
+        }).then(canvas => {
+            // Convertir la tabla en imagen JPEG comprimida para ahorrar memoria ram en el celular
+            const imgData = canvas.toDataURL("image/jpeg", 0.85);
+            
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgWidth = 190; 
+            const pageHeight = 295;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 10; 
+
+            // Agregar la primera página
+            pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight, undefined, 'FAST');
+            heightLeft -= pageHeight;
+
+            // Manejar paginación automática si la lista de prendas es muy larga
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight + 10;
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight, undefined, 'FAST');
+                heightLeft -= pageHeight;
+            }
+
+            // TRUCO DE DESCARGA DIRECTA (Nativa de Android para saltarse bloqueos)
+            const blobPDF = pdf.output('blob');
+            const urlDescarga = URL.createObjectURL(blobPDF);
+            
+            const enlaceInvisible = document.createElement("a");
+            enlaceInvisible.href = urlDescarga;
+            enlaceInvisible.download = `Produccion_PimientaKids_${hoy.toISOString().split('T')}.pdf`;
+            
+            document.body.appendChild(enlaceInvisible);
+            enlaceInvisible.click(); // Descarga al instante
+            document.body.removeChild(enlaceInvisible);
+
+            // Restablecer interfaz
             btnDownload.textContent = "Descargar Comprobante (PDF)";
             btnDownload.disabled = false;
+            URL.revokeObjectURL(urlDescarga);
         }).catch(err => {
-            console.error("Error al procesar el archivo:", err);
+            console.error("Error al generar el PDF:", err);
+            alert("Ocurrió un error al procesar las fotos. Intenta usar imágenes más ligeras.");
             btnDownload.textContent = "Descargar Comprobante (PDF)";
             btnDownload.disabled = false;
         });

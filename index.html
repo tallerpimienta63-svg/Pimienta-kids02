@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pimienta Kids - Panel de Producción</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- NUEVA LIBRERÍA OPTIMIZADA: html2pdf para descargas pesadas en móviles -->
+    <!-- Librerías requeridas para el PDF directo en celulares sin ventanas emergentes -->
+    <script src="https://cloudflare.com"></script>
     <script src="https://cloudflare.com"></script>
 </head>
 <body>
@@ -31,7 +32,7 @@
                         <input type="number" id="cantidad" placeholder="0" min="1" required>
                     </div>
                     <div class="input-group">
-                        <label for="colorTalla">Detalles / Talla y Color</label>
+                        <label for="colorTalla">Talla y Color</label>
                         <input type="text" id="colorTalla" placeholder="Ej. Negro (- 2 por talla)" required>
                     </div>
                 </div>
