@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // DESCARGA PARCHADA PARA NAVEGADORES MÓVILES
+    // MÉTODO DE DESCARGA DIRECTA REPARADO PARA CELULARES
     btnDownload.addEventListener("click", () => {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
@@ -171,10 +171,20 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.setTextColor(46, 125, 50); 
         doc.text(`${sumaTotalPrendas} prendas`, 100, yPos);
 
-        // ⬇️ SOLUCIÓN PARA MÓVILES: Abre el PDF en una pestaña nativa independiente para forzar la visualización/guardado
+        // ⬇️ SOLUCIÓN DEFINITIVA: Forzar enlace de descarga directa en el navegador del celular
         const blob = doc.output('blob');
-        const blobUrl = URL.createObjectURL(blob);
-        window.open(blobUrl, '_blank');
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Produccion_PimientaKids_${hoy.toISOString().split('T')[0]}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        
+        // Limpieza de memoria
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
     });
 });
 
