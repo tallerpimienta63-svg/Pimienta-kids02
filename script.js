@@ -16,18 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const hoy = new Date();
     comprobanteFecha.textContent = hoy.toLocaleDateString('es-PE', opcionesFecha);
 
-    // Leer imagen local desde la cámara/galería
+    // Leer imagen local desde la cámara o galería del taller
     fotoPrendaInput.addEventListener("change", (e) => {
-        const file = e.target.files;
-        if (file && file[0]) {
-            fileStatus.textContent = `📸 Cargada: ${file[0].name.substring(0, 12)}...`;
+        const file = e.target.files[0];
+        if (file) {
+            fileStatus.textContent = `📸 Cargada: ${file.name.substring(0, 12)}...`;
             uploadBox.style.borderColor = "#2e7d32";
             
             const reader = new FileReader();
             reader.onload = function(event) {
                 fotoTemporalBase64 = event.target.result;
             };
-            reader.readAsDataURL(file[0]);
+            reader.readAsDataURL(file);
         }
     });
 
@@ -82,39 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // NUEVO MOTOR DE CAPTURA DE IMAGEN DIRECTA ULTRA COMPATIBLE
+    // 🚀 MÉTODO DE ASISTENCIA NATIVA: Usa el sistema de guardado/impresión oficial del teléfono
     btnDownload.addEventListener("click", () => {
-        const areaCaptura = document.getElementById("comprobanteCaptureArea");
-        
-        btnDownload.textContent = "Guardando...";
-        btnDownload.disabled = true;
-
-        html2canvas(areaCaptura, {
-            backgroundColor: "#ffffff",
-            scale: 2, // Resolucion nitida para ver bien los textos pequeños
-            useCORS: true,
-            allowTaint: true,
-            logging: false
-        }).then(canvas => {
-            // Convierte el HTML en un enlace de imagen común (.png)
-            const imageURI = canvas.toDataURL("image/png");
-            
-            // Forzar descarga nativa directa en el portapapeles/descargas de Android
-            const linkDescarga = document.createElement("a");
-            linkDescarga.href = imageURI;
-            linkDescarga.download = `Produccion_PimientaKids_${hoy.toISOString().split('T')[0]}.png`;
-            
-            document.body.appendChild(linkDescarga);
-            linkDescarga.click(); 
-            document.body.removeChild(linkDescarga);
-
-            btnDownload.textContent = "Descargar Comprobante";
-            btnDownload.disabled = false;
-        }).catch(err => {
-            console.error("Error al generar imagen:", err);
-            btnDownload.textContent = "Descargar Comprobante";
-            btnDownload.disabled = false;
-        });
+        // Ejecuta la orden nativa del celular. Abrirá la ventana del sistema operativo
+        window.print();
     });
 });
 
