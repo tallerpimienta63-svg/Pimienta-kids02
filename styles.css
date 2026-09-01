@@ -223,6 +223,18 @@ input:focus, textarea:focus {
     background-color: #fdfaf7;
 }
 
+/* Fila de Total General al final de la Tabla */
+#filaTotalGeneral {
+    background-color: #fbeee0 !important;
+    border-top: 2px solid #8b3a1b;
+}
+
+#filaTotalGeneral td {
+    font-weight: 700;
+    color: #56230f;
+    padding: 14px 10px;
+}
+
 /* Miniatura de imagen */
 .table-thumb {
     width: 50px;
@@ -268,7 +280,7 @@ input:focus, textarea:focus {
 .btn-download {
     flex: 2;
     padding: 14px;
-    background-color: #2e7d32;
+    background-color: #2e7d32; /* Verde para descargar */
     color: white;
     border: none;
     border-radius: 12px;
@@ -285,7 +297,7 @@ input:focus, textarea:focus {
     flex: 1;
     padding: 14px;
     background: transparent;
-    color: #c62828;
+    color: #c62828; /* Rojo para limpiar */
     border: 1.5px solid #c62828;
     border-radius: 12px;
     font-weight: 600;
