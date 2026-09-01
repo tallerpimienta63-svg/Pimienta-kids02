@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let fotoTemporalBase64 = "";
     let totalFilas = 0;
     let sumaTotalPrendas = 0;
-    let listaProductosMemoria = []; 
 
     // Configurar la fecha de hoy automáticamente en español
     const opcionesFecha = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
@@ -49,13 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const imgSrc = fotoTemporalBase64 ? fotoTemporalBase64 : "https://placeholder.com";
         const notasCompletas = descripcion ? `${detalles} — Obs: ${descripcion}` : detalles;
 
-        listaProductosMemoria.push({
-            nombre: nombre,
-            cantidad: cantidad,
-            detalles: notasCompletas,
-            foto: fotoTemporalBase64 
-        });
-
         const fila = document.createElement("tr");
         fila.innerHTML = `
             <td><img src="${imgSrc}" class="table-thumb" alt="Prenda"></td>
@@ -90,101 +82,33 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // MÉTODO DE DESCARGA DIRECTA REPARADO PARA CELULARES
+    // SISTEMA DE EXPORTACIÓN DIRECTA COMPRIMIDA USANDO HTML2PDF
     btnDownload.addEventListener("click", () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        // Cabecera del Documento PDF
-        doc.setFillColor(251, 238, 224); 
-        doc.rect(0, 0, 220, 40, 'F');
-
-        doc.setTextColor(139, 58, 27); 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(22);
-        doc.text("Pimienta Kids", 14, 18);
-
-        doc.setFontSize(9);
-        doc.setTextColor(161, 136, 127);
-        doc.text("GESTIÓN & SISTEMA", 14, 23);
-
-        doc.setTextColor(86, 35, 15); 
-        doc.setFontSize(12);
-        doc.text("COMPROBANTE DE PRODUCCIÓN", 14, 34);
+        const elementoACapturar = document.getElementById("comprobanteCaptureArea");
         
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(10);
-        doc.text(`Fecha: ${comprobanteFecha.textContent}`, 130, 34);
+        // Deshabilitar temporalmente el botón para evitar clics dobles mientras procesa
+        btnDownload.textContent = "Procesando PDF...";
+        btnDownload.disabled = true;
 
-        let yPos = 55;
-        doc.setFillColor(241, 228, 211);
-        doc.rect(14, yPos - 6, 182, 8, 'F');
-        
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(10);
-        doc.setTextColor(86, 35, 15);
-        doc.text("MUESTRA", 16, yPos - 1);
-        doc.text("PRENDA", 45, yPos - 1);
-        doc.text("CANT.", 100, yPos - 1);
-        doc.text("DETALLES Y DESCRIPCIÓN", 120, yPos - 1);
+        // Configuración de compresión y renderizado nativo para teléfonos móviles
+        const opcionesConfig = {
+            margin:       10,
+            filename:     `Produccion_PimientaKids_${hoy.toISOString().split('T')[0]}.pdf`,
+            image:        { type: 'jpeg', quality: 0.95 }, // Comprime las fotos pesadas de la cámara para no saturar memoria
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
-        doc.setDrawColor(139, 58, 27);
-        doc.line(14, yPos + 2, 196, yPos + 2);
-        yPos += 10;
-
-        listaProductosMemoria.forEach((prod) => {
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.setTextColor(33, 33, 33);
-
-            if (prod.foto) {
-                try {
-                    doc.addImage(prod.foto, 'JPEG', 16, yPos - 6, 12, 12);
-                } catch (e) {
-                    doc.text("[Foto]", 16, yPos);
-                }
-            } else {
-                doc.text("[Sin Foto]", 16, yPos);
-            }
-
-            doc.setFont("helvetica", "bold");
-            doc.text(prod.nombre, 45, yPos);
-            
-            doc.setTextColor(139, 58, 27);
-            doc.text(prod.cantidad.toString(), 103, yPos);
-
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(86, 35, 15);
-            
-            let detallesCortados = doc.splitTextToSize(prod.detalles, 70);
-            doc.text(detallesCortados, 120, yPos);
-
-            yPos += 16; 
+        // Ejecutar la exportación directa como descarga de archivo nativa en Android
+        html2pdf().set(opcionesConfig).from(elementoACapturar).save().then(() => {
+            // Reestablecer el estado del botón una vez terminada la descarga
+            btnDownload.textContent = "Descargar Comprobante (PDF)";
+            btnDownload.disabled = false;
+        }).catch(err => {
+            console.error("Error al procesar el archivo:", err);
+            btnDownload.textContent = "Descargar Comprobante (PDF)";
+            btnDownload.disabled = false;
         });
-
-        doc.setDrawColor(200, 200, 200);
-        doc.line(14, yPos - 6, 196, yPos - 6);
-        
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(86, 35, 15);
-        doc.text("TOTAL GENERAL SALIDA:", 45, yPos);
-        doc.setTextColor(46, 125, 50); 
-        doc.text(`${sumaTotalPrendas} prendas`, 100, yPos);
-
-        // ⬇️ SOLUCIÓN DEFINITIVA: Forzar enlace de descarga directa en el navegador del celular
-        const blob = doc.output('blob');
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Produccion_PimientaKids_${hoy.toISOString().split('T')[0]}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        
-        // Limpieza de memoria
-        setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, 100);
     });
 });
 
