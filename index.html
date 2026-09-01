@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pimienta Kids - Panel de Producción</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Librerías requeridas para el PDF directo en celulares sin ventanas emergentes -->
-    <script src="https://cloudflare.com"></script>
+    <!-- Única librería requerida: Captura de pantalla nativa ultraliviana -->
     <script src="https://cloudflare.com"></script>
 </head>
 <body>
@@ -32,7 +31,7 @@
                         <input type="number" id="cantidad" placeholder="0" min="1" required>
                     </div>
                     <div class="input-group">
-                        <label for="colorTalla">Talla y Color</label>
+                        <label for="colorTalla">Talla /  Color</label>
                         <input type="text" id="colorTalla" placeholder="Ej. Negro (- 2 por talla)" required>
                     </div>
                 </div>
@@ -98,7 +97,7 @@
 
             <!-- Botones de Control -->
             <div class="action-bar">
-                <button id="btnDownload" class="btn-download" disabled>Descargar Comprobante (PDF)</button>
+                <button id="btnDownload" class="btn-download" disabled>Descargar Comprobante</button>
                 <button id="btnReset" class="btn-secondary" onclick="limpiarTabla()">Limpiar Todo</button>
             </div>
 

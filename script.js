@@ -82,64 +82,37 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // DESCARGA DE PDF DIRECTA: SIN VENTANAS EMERGENTES Y COMPRIMIDO
+    // NUEVO MOTOR DE CAPTURA DE IMAGEN DIRECTA ULTRA COMPATIBLE
     btnDownload.addEventListener("click", () => {
         const areaCaptura = document.getElementById("comprobanteCaptureArea");
         
-        btnDownload.textContent = "Generando PDF...";
+        btnDownload.textContent = "Guardando...";
         btnDownload.disabled = true;
-
-        const { jsPDF } = window.jspdf;
 
         html2canvas(areaCaptura, {
             backgroundColor: "#ffffff",
-            scale: 1.5, // Balance ideal entre nitidez y ligereza para que el móvil procese rápido
+            scale: 2, // Resolucion nitida para ver bien los textos pequeños
             useCORS: true,
             allowTaint: true,
             logging: false
         }).then(canvas => {
-            // Convertir la tabla en imagen JPEG comprimida para ahorrar memoria ram en el celular
-            const imgData = canvas.toDataURL("image/jpeg", 0.85);
+            // Convierte el HTML en un enlace de imagen común (.png)
+            const imageURI = canvas.toDataURL("image/png");
             
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgWidth = 190; 
-            const pageHeight = 295;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            let heightLeft = imgHeight;
-            let position = 10; 
-
-            // Agregar la primera página
-            pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight, undefined, 'FAST');
-            heightLeft -= pageHeight;
-
-            // Manejar paginación automática si la lista de prendas es muy larga
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight + 10;
-                pdf.addPage();
-                pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight, undefined, 'FAST');
-                heightLeft -= pageHeight;
-            }
-
-            // TRUCO DE DESCARGA DIRECTA (Nativa de Android para saltarse bloqueos)
-            const blobPDF = pdf.output('blob');
-            const urlDescarga = URL.createObjectURL(blobPDF);
+            // Forzar descarga nativa directa en el portapapeles/descargas de Android
+            const linkDescarga = document.createElement("a");
+            linkDescarga.href = imageURI;
+            linkDescarga.download = `Produccion_PimientaKids_${hoy.toISOString().split('T')[0]}.png`;
             
-            const enlaceInvisible = document.createElement("a");
-            enlaceInvisible.href = urlDescarga;
-            enlaceInvisible.download = `Produccion_PimientaKids_${hoy.toISOString().split('T')}.pdf`;
-            
-            document.body.appendChild(enlaceInvisible);
-            enlaceInvisible.click(); // Descarga al instante
-            document.body.removeChild(enlaceInvisible);
+            document.body.appendChild(linkDescarga);
+            linkDescarga.click(); 
+            document.body.removeChild(linkDescarga);
 
-            // Restablecer interfaz
-            btnDownload.textContent = "Descargar Comprobante (PDF)";
+            btnDownload.textContent = "Descargar Comprobante";
             btnDownload.disabled = false;
-            URL.revokeObjectURL(urlDescarga);
         }).catch(err => {
-            console.error("Error al generar el PDF:", err);
-            alert("Ocurrió un error al procesar las fotos. Intenta usar imágenes más ligeras.");
-            btnDownload.textContent = "Descargar Comprobante (PDF)";
+            console.error("Error al generar imagen:", err);
+            btnDownload.textContent = "Descargar Comprobante";
             btnDownload.disabled = false;
         });
     });
