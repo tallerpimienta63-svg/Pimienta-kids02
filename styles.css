@@ -1,4 +1,4 @@
-@import url('https://googleapis.com');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 * {
     box-sizing: border-box;
@@ -8,8 +8,8 @@
 }
 
 body {
-    background-color: #f1e4d3; /* Crema suave principal */
-    color: #56230f; /* Marrón oscuro para textos */
+    background-color: #f1e4d3;
+    color: #56230f;
     min-height: 100vh;
     padding: 15px;
 }
@@ -28,9 +28,9 @@ body {
     }
 }
 
-/* Tarjeta del Formulario Izquierdo */
+/* Tarjeta del Formulario */
 .form-card {
-    background: #fbeee0; /* Fondo interior claro */
+    background: #fbeee0;
     padding: 25px;
     border-radius: 20px;
     border: 1px solid rgba(139, 58, 27, 0.15);
@@ -100,7 +100,7 @@ input:focus, textarea:focus {
 }
 
 .file-upload-box {
-    padding: 14px;
+    padding: 12px;
     background: #f1e4d3;
     border: 1.5px dashed #8b3a1b;
     border-radius: 10px;
@@ -113,7 +113,7 @@ input:focus, textarea:focus {
 .btn-primary {
     width: 100%;
     padding: 14px;
-    background-color: #8b3a1b; /* Botón principal terracota */
+    background-color: #8b3a1b;
     color: white;
     border: none;
     border-radius: 10px;
@@ -122,7 +122,7 @@ input:focus, textarea:focus {
     cursor: pointer;
 }
 
-/* --- VISTA DEL COMPROBANTE INTEGRADO EN PALETA --- */
+/* --- VISTA DEL COMPROBANTE CON ESTILO VIDRIOSO (GLASSMORPHISM) --- */
 .preview-card {
     display: flex;
     flex-direction: column;
@@ -132,102 +132,109 @@ input:focus, textarea:focus {
 .comprobante-canvas {
     background: #ffffff;
     border-radius: 24px;
-    padding: 20px 12px;
-    box-shadow: 0 10px 30px rgba(86, 35, 15, 0.05);
+    padding: 20px 14px;
+    box-shadow: 0 10px 30px rgba(86, 35, 15, 0.08);
     width: 100%;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .comprobante-header {
     text-align: center;
+    background: linear-gradient(135deg, rgba(251, 238, 224, 0.8), rgba(241, 228, 211, 0.4));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 58, 27, 0.12);
+    border-radius: 16px;
+    padding: 18px 10px;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9), 0 4px 15px rgba(86, 35, 15, 0.03);
 }
 
 .brand-logo h1 {
-    font-size: 1.8rem;
-    color: #8b3a1b;
-    font-weight: 700;
+    font-size: 1.7rem;
+    color: #56230f;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .brand-logo .brand-sub {
     font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #a1887f;
+    letter-spacing: 2.5px;
+    color: #8b3a1b;
+    font-weight: 600;
     display: block;
+    margin-top: 2px;
 }
 
 .status-badge {
     display: inline-block;
-    background-color: #e8f5e9;
+    background: rgba(232, 245, 233, 0.9);
+    backdrop-filter: blur(4px);
     color: #2e7d32;
     padding: 4px 14px;
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    margin: 12px 0 6px;
+    margin: 10px 0 6px;
+    border: 1px solid rgba(46, 125, 50, 0.15);
 }
 
 .document-title {
     color: #56230f;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .document-date {
     color: #8b3a1b;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 500;
     margin-top: 2px;
 }
 
 .ticket-divider {
-    border-top: 2px dashed rgba(139, 58, 27, 0.2);
-    margin: 15px 0;
+    border-top: 1.5px dashed rgba(139, 58, 27, 0.2);
+    margin: 14px 0;
 }
 
-/* --- TABLA OPTIMIZADA PARA MÓVIL Y UX --- */
+/* --- TABLA OPTIMIZADA --- */
 .table-responsive {
     width: 100%;
-    overflow-x: hidden; /* Evita scrolls laterales molestos */
+    overflow-x: hidden;
 }
 
 .production-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 5px;
     text-align: left;
-    table-layout: fixed; /* Fuerza a respetar los anchos asignados */
+    table-layout: fixed;
 }
 
-/* 🔄 ENCABEZADO INVERTIDO: Fondo marrón oscuro y texto blanco */
 .production-table th {
     background-color: #56230f !important; 
     color: #ffffff !important; 
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 10px 6px;
-    letter-spacing: 0.3px;
+    padding: 10px 4px;
+    letter-spacing: 0.2px;
     word-break: break-word;
 }
 
 .production-table td {
-    padding: 10px 6px;
+    padding: 10px 4px;
     border-bottom: 1px solid rgba(139, 58, 27, 0.1);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: #56230f;
     vertical-align: middle;
-    word-break: break-word; /* Evita que textos largos rompan la caja */
+    word-break: break-word;
 }
 
-.production-table tbody tr:hover {
-    background-color: #fdfaf7;
-}
-
-/* Fila de Total General al final de la Tabla */
 #filaTotalGeneral {
     background-color: #fbeee0 !important;
     border-top: 2px solid #8b3a1b;
@@ -237,37 +244,53 @@ input:focus, textarea:focus {
     font-weight: 700;
     color: #56230f;
     padding: 12px 6px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
 }
 
-/* Miniatura de imagen compacta para móvil */
+/* Foto y Nombre unidos */
+.item-foto-nombre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
 .table-thumb {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 6px;
     object-fit: cover;
     border: 1px solid rgba(139, 58, 27, 0.2);
     background: #f1e4d3;
-    display: block;
 }
 
-.col-prenda {
+.col-prenda-mini {
+    font-size: 0.65rem;
     font-weight: 700;
     color: #56230f;
-    font-size: 0.8rem;
+    text-align: center;
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+.col-talla {
+    text-align: center;
+    font-weight: 700;
+    color: #8b3a1b;
+    font-size: 0.85rem;
 }
 
 .col-cantidad {
     text-align: center;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #8b3a1b;
 }
 
 .col-detalles {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: #724c3e;
-    line-height: 1.35;
+    line-height: 1.3;
 }
 
 .empty-state {
@@ -310,7 +333,7 @@ input:focus, textarea:focus {
     cursor: pointer;
 }
 
-/* IMPRESIÓN ASISTIDA NATIVA DEL CELULAR */
+/* IMPRESIÓN */
 @media print {
     body {
         background-color: #ffffff !important;
@@ -328,6 +351,12 @@ input:focus, textarea:focus {
         box-shadow: none !important;
         padding: 0 !important;
         width: 100% !important;
+        border: none !important;
+    }
+    .comprobante-header {
+        background: #fbeee0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
     .production-table th {
         background-color: #56230f !important;

@@ -3,107 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pimienta Kids - Panel de Producción</title>
+    <title>Pimienta Kids - Gestión de Salidas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cloudflare.com"></script>
 </head>
 <body>
 
     <div class="app-container">
-
-        <!-- Formulario de Registro Izquierdo -->
+        
+        <!-- FORMULARIO DE REGISTRO (IZQUIERDA) -->
         <div class="form-card">
-            <header class="form-header">
-                <h2>Registrar Prenda</h2>
-                <p>Añade artículos al lote de salida</p>
-            </header>
+            <div class="form-header">
+                <h2>Nuevo Registro</h2>
+                <p>Ingrese los datos de la salida del taller</p>
+            </div>
 
-            <form id="prendaForm">
+            <form id="formSalida">
                 <div class="input-group">
                     <label for="nombrePrenda">Nombre de la Prenda</label>
-                    <input type="text" id="nombrePrenda" placeholder="Ej. CAFARENA" required>
+                    <input type="text" id="nombrePrenda" placeholder="Ej. Cafarena, Vestido..." required>
                 </div>
 
                 <div class="row">
                     <div class="input-group">
-                        <label for="cantidad">Cantidad</label>
-                        <input type="number" id="cantidad" placeholder="0" min="1" required>
+                        <label for="tallaPrenda">Talla</label>
+                        <input type="text" id="tallaPrenda" placeholder="Ej. 6, 8, S..." required>
                     </div>
                     <div class="input-group">
-                        <label for="colorTalla">Talla / Color</label>
-                        <input type="text" id="colorTalla" placeholder="Ej. 8 / Negro" required>
+                        <label for="colorPrenda">Color</label>
+                        <input type="text" id="colorPrenda" placeholder="Ej. Rojo, Azul..." required>
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="descripcion">Descripción Adicional</label>
-                    <textarea id="descripcion" rows="2" placeholder="Notas del taller..."></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label for="fotoPrenda">Foto de Muestra</label>
-                    <div class="file-upload-wrapper">
-                        <input type="file" id="fotoPrenda" accept="image/*">
-                        <div class="file-upload-box" id="uploadBox">
-                            <span id="fileStatus">📸 Seleccionar foto de muestra</span>
+                <div class="row">
+                    <div class="input-group">
+                        <label for="cantidadPrenda">Cantidad</label>
+                        <input type="number" id="cantidadPrenda" min="1" value="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="fotoPrenda">Foto Muestra</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="fotoPrenda" accept="image/*">
+                            <div class="file-upload-box">Subir Foto</div>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-primary">Añadir a la Tabla</button>
+                <div class="input-group">
+                    <label for="obsPrenda">Observaciones / Detalles</label>
+                    <textarea id="obsPrenda" rows="2" placeholder="Detalles adicionales..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Agregar a la Lista</button>
             </form>
         </div>
 
-        <!-- Comprobante en Formato Tabla Derecha -->
+        <!-- VISTA PREVIA DEL COMPROBANTE (DERECHA) -->
         <div class="preview-card">
-
-            <div id="comprobanteCaptureArea" class="comprobante-canvas">
-
+            <div class="comprobante-canvas" id="comprobanteArea">
+                
+                <!-- CABECERA VIDRIOSA Y LUMINOSA -->
                 <div class="comprobante-header">
                     <div class="brand-logo">
                         <h1>Pimienta Kids</h1>
-                        <span class="brand-sub">Gestión & Sistema</span>
+                        <span class="brand-sub">GESTIÓN & SISTEMA</span>
                     </div>
-
                     <div class="status-badge">✓ REGISTRO EXITOSO</div>
-
-                    <h2 class="document-title">COMPROBANTE DE PRODUCCIÓN</h2>
-                    <p class="document-date" id="comprobanteFecha">Cargando fecha...</p>
-
-                    <div class="ticket-divider"></div>
+                    <div class="document-title">COMPROBANTE DE PRODUCCIÓN</div>
+                    <div class="document-date" id="fechaActual">miércoles, 2 de setiembre de 2026</div>
                 </div>
 
-                <!-- TABLA DE CONTROL MEJORADA (UX) -->
+                <div class="ticket-divider"></div>
+
+                <!-- TABLA OPTIMIZADA (FOTO + NOMBRE / TALLA / CANTIDAD / DETALLES) -->
                 <div class="table-responsive">
                     <table class="production-table">
                         <thead>
                             <tr>
-                                <th style="width: 15%;">Muestra</th>
-                                <th style="width: 30%;">Prenda</th>
-                                <th style="width: 15%; text-align: center;">Cant.</th>
-                                <th style="width: 40%;">Detalles y Descripción</th>
+                                <th style="width: 28%;">MUESTRA</th>
+                                <th style="width: 15%;">TALLA</th>
+                                <th style="width: 15%;">CANT.</th>
+                                <th style="width: 42%;">DETALLES Y DESCRIPCIÓN</th>
                             </tr>
                         </thead>
-                        <tbody id="tablaCuerpoPrendas">
-                            <tr id="emptyRow">
-                                <td colspan="4" class="empty-state">No hay prendas registradas en la tabla.</td>
+                        <tbody id="tablaCuerpo">
+                            <tr>
+                                <td colspan="4" class="empty-state">No hay registros agregados aún.</td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr id="filaTotalGeneral">
+                                <td colspan="2">TOTAL GENERAL:</td>
+                                <td id="totalCantidad" class="col-cantidad">0</td>
+                                <td>prendas de salida</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
 
             </div>
 
-            <!-- Botones de Control -->
+            <!-- BOTONES DE ACCIÓN INFERIORES -->
             <div class="action-bar">
-                <button id="btnDownload" class="btn-download" disabled>Descargar Comprobante</button>
-                <button id="btnReset" class="btn-secondary" onclick="limpiarTabla()">Limpiar Todo</button>
+                <button id="btnDescargar" class="btn-download" disabled>Descargar Comprobante</button>
+                <button id="btnLimpiar" class="btn-secondary">Limpiar Todo</button>
             </div>
-
         </div>
 
     </div>
 
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>

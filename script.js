@@ -1,95 +1,89 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const prendaForm = document.getElementById("prendaForm");
-    const fotoPrendaInput = document.getElementById("fotoPrenda");
-    const uploadBox = document.getElementById("uploadBox");
-    const fileStatus = document.getElementById("fileStatus");
-    const tablaCuerpo = document.getElementById("tablaCuerpoPrendas");
-    const btnDownload = document.getElementById("btnDownload");
-    const comprobanteFecha = document.getElementById("comprobanteFecha");
+let listaPrendas = [];
 
-    let fotoTemporalBase64 = "";
-    let totalFilas = 0;
-    let sumaTotalPrendas = 0;
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('formSalida');
+    const btnDescargar = document.getElementById('btnDescargar');
+    const btnLimpiar = document.getElementById('btnLimpiar');
 
-    // Configurar la fecha de hoy automáticamente en español
-    const opcionesFecha = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    const hoy = new Date();
-    comprobanteFecha.textContent = hoy.toLocaleDateString('es-PE', opcionesFecha);
+    // Cargar fecha actual formateada
+    const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaFormat = new Date().toLocaleDateString('es-ES', opcionesFecha);
+    document.getElementById('fechaActual').textContent = fechaFormat;
 
-    // Leer imagen local desde la cámara o galería del taller
-    fotoPrendaInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            fileStatus.textContent = `📸 Cargada: ${file.name.substring(0, 12)}...`;
-            uploadBox.style.borderColor = "#2e7d32";
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                fotoTemporalBase64 = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Añadir fila a la tabla dinámicamente
-    prendaForm.addEventListener("submit", (e) => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const nombre = document.getElementById("nombrePrenda").value.toUpperCase();
-        const cantidad = parseInt(document.getElementById("cantidad").value);
-        const colorTalla = document.getElementById("colorTalla").value; // Talla y Color
-        const descripcion = document.getElementById("descripcion").value;
+        const nombre = document.getElementById('nombrePrenda').value.trim();
+        const talla = document.getElementById('tallaPrenda').value.trim();
+        const color = document.getElementById('colorPrenda').value.trim();
+        const cantidad = parseInt(document.getElementById('cantidadPrenda').value) || 1;
+        const observacion = document.getElementById('obsPrenda').value.trim();
+        const inputFoto = document.getElementById('fotoPrenda');
 
-        if (totalFilas === 0) {
-            tablaCuerpo.innerHTML = "";
-            btnDownload.disabled = false;
+        let fotoUrl = 'https://via.placeholder.com/40?text=Foto'; // Imagen por defecto si no suben archivo
+
+        if (inputFoto.files && inputFoto.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                agregarItemLista(nombre, talla, color, cantidad, observacion, e.target.result);
+                form.reset();
+            };
+            reader.readAsDataURL(inputFoto.files[0]);
+        } else {
+            agregarItemLista(nombre, talla, color, cantidad, observacion, fotoUrl);
+            form.reset();
         }
-
-        const imgSrc = fotoTemporalBase64 ? fotoTemporalBase64 : "https://placeholder.com";
-        
-        // 📌 Aplicamos negrita a la talla y color, seguido de la observación adicional si existe
-        const notasCompletas = descripcion 
-            ? `<strong>${colorTalla}</strong> — Obs: ${descripcion}` 
-            : `<strong>${colorTalla}</strong>`;
-
-        const fila = document.createElement("tr");
-        fila.innerHTML = `
-            <td><img src="${imgSrc}" class="table-thumb" alt="Prenda"></td>
-            <td class="col-prenda">${nombre}</td>
-            <td class="col-cantidad">${cantidad}</td>
-            <td class="col-detalles">${notasCompletas}</td>
-        `;
-        tablaCuerpo.appendChild(fila);
-
-        totalFilas++;
-        sumaTotalPrendas += cantidad;
-
-        const filaTotalAnterior = document.getElementById("filaTotalGeneral");
-        if (filaTotalAnterior) {
-            filaTotalAnterior.remove();
-        }
-
-        const filaTotal = document.createElement("tr");
-        filaTotal.id = "filaTotalGeneral";
-        filaTotal.innerHTML = `
-            <td colspan="2" style="text-align: right; color: #56230f;">TOTAL GENERAL:</td>
-            <td style="text-align: center; color: #8b3a1b; font-size: 1rem;">${sumaTotalPrendas}</td>
-            <td>prendas de salida</td>
-        `;
-        tablaCuerpo.appendChild(filaTotal);
-
-        prendaForm.reset();
-        fotoTemporalBase64 = "";
-        fileStatus.textContent = "📸 Seleccionar foto de muestra";
-        uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // Método de asistencia nativa para imprimir / guardar PDF
-    btnDownload.addEventListener("click", () => {
+    function agregarItemLista(nombre, talla, color, cantidad, observacion, foto) {
+        listaPrendas.push({ nombre, talla, color, cantidad, observacion, foto });
+        actualizarTabla();
+    }
+
+    function actualizarTabla() {
+        const tbody = document.getElementById('tablaCuerpo');
+        const totalCantidadEl = document.getElementById('totalCantidad');
+        
+        tbody.innerHTML = '';
+
+        if (listaPrendas.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No hay registros agregados aún.</td></tr>`;
+            totalCantidadEl.textContent = '0';
+            btnDescargar.disabled = true;
+            return;
+        }
+
+        let sumaTotal = 0;
+
+        listaPrendas.forEach((item, index) => {
+            sumaTotal += item.cantidad;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="text-align: center;">
+                    <div class="item-foto-nombre">
+                        <img src="${item.foto}" alt="${item.nombre}" class="table-thumb">
+                        <span class="col-prenda-mini">${item.nombre}</span>
+                    </div>
+                </td>
+                <td class="col-talla">${item.talla}</td>
+                <td class="col-cantidad">${item.cantidad}</td>
+                <td class="col-detalles"><strong>${item.talla} - ${item.color}</strong><br>Obs: ${item.observacion || '-'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        totalCantidadEl.textContent = sumaTotal;
+        btnDescargar.disabled = false;
+    }
+
+    btnDescargar.addEventListener('click', () => {
         window.print();
     });
-});
 
-function limpiarTabla() {
-    window.location.reload();
-}
+    btnLimpiar.addEventListener('click', () => {
+        if (confirm('¿Deseas limpiar todos los registros de la lista?')) {
+            listaPrendas = [];
+            actualizarTabla();
+        }
+    });
+});
