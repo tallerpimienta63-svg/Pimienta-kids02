@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+:root {
+    --bg-main: #f5efe6;
+    --card-bg: #fffbf7;
+    --primary-color: #8c4a32;
+    --primary-hover: #733c28;
+    --text-color: #3b2f2f;
+    --text-light: #706060;
+    --border-color: #e3d5c6;
+    --success-bg: #e6f4ea;
+    --success-text: #137333;
+}
 
 * {
     box-sizing: border-box;
@@ -8,365 +18,280 @@
 }
 
 body {
-    background-color: #f1e4d3;
-    color: #56230f;
-    min-height: 100vh;
-    padding: 15px;
+    background-color: var(--bg-main);
+    color: var(--text-color);
+    padding: 16px;
+    display: flex;
+    justify-content: center;
 }
 
 .app-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 25px;
-    max-width: 1100px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-@media(min-width: 850px) {
-    .app-container {
-        grid-template-columns: 1fr 1.5fr;
-    }
-}
-
-/* Tarjeta del Formulario */
-.form-card {
-    background: #fbeee0;
-    padding: 25px;
+.card {
+    background-color: var(--card-bg);
     border-radius: 20px;
-    border: 1px solid rgba(139, 58, 27, 0.15);
-    height: fit-content;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--border-color);
 }
 
-.form-header h2 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #56230f;
+.form-card h2 {
+    font-size: 22px;
+    color: var(--primary-color);
+    margin-bottom: 4px;
 }
 
-.form-header p {
-    font-size: 0.85rem;
-    color: #8b3a1b;
-    margin-bottom: 20px;
-}
-
-.input-group {
+.subtitle {
+    font-size: 13px;
+    color: var(--text-light);
     margin-bottom: 16px;
 }
 
-.row {
+.input-group {
+    margin-bottom: 12px;
     display: flex;
-    gap: 12px;
+    flex-direction: column;
 }
 
-.row .input-group {
-    flex: 1;
-}
-
-label {
-    display: block;
-    font-size: 0.85rem;
+.input-group label {
+    font-size: 12px;
     font-weight: 600;
-    margin-bottom: 6px;
-    color: #56230f;
+    margin-bottom: 4px;
+    color: var(--text-color);
 }
 
-input[type="text"],
-input[type="number"],
-textarea {
-    width: 100%;
-    padding: 12px 14px;
-    background-color: #f1e4d3;
-    border: 1.5px solid rgba(139, 58, 27, 0.2);
+.input-group input, 
+.input-group textarea {
+    padding: 10px 12px;
     border-radius: 10px;
-    font-size: 0.9rem;
-    color: #56230f;
+    border: 1px solid var(--border-color);
+    background-color: #faf5ed;
+    font-size: 14px;
+    color: var(--text-color);
     outline: none;
+    transition: border-color 0.2s;
 }
 
-input:focus, textarea:focus {
-    border-color: #8b3a1b;
+.input-group input:focus, 
+.input-group textarea:focus {
+    border-color: var(--primary-color);
 }
 
-.file-upload-wrapper {
-    position: relative;
+.input-group textarea {
+    resize: vertical;
+    min-height: 60px;
 }
 
-.file-upload-wrapper input[type="file"] {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-.file-upload-box {
-    padding: 12px;
-    background: #f1e4d3;
-    border: 1.5px dashed #8b3a1b;
+.file-upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 2px dashed var(--primary-color);
     border-radius: 10px;
-    text-align: center;
-    color: #8b3a1b;
-    font-size: 0.85rem;
+    background-color: #faf5ed;
+    color: var(--primary-color);
+    font-size: 13px;
     font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    height: 42px;
 }
 
 .btn-primary {
-    width: 100%;
-    padding: 14px;
-    background-color: #8b3a1b;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
+    padding: 12px;
+    width: 100%;
+    font-size: 15px;
     font-weight: 600;
-    font-size: 0.95rem;
     cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
 }
 
-/* --- VISTA DEL COMPROBANTE CON ESTILO VIDRIOSO (GLASSMORPHISM) --- */
-.preview-card {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.btn-primary:active {
+    background-color: var(--primary-hover);
 }
 
-.comprobante-canvas {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 20px 14px;
-    box-shadow: 0 10px 30px rgba(86, 35, 15, 0.08);
-    width: 100%;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.comprobante-header {
+/* RECIBO */
+.receipt-header {
     text-align: center;
-    background: linear-gradient(135deg, rgba(251, 238, 224, 0.8), rgba(241, 228, 211, 0.4));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(139, 58, 27, 0.12);
-    border-radius: 16px;
-    padding: 18px 10px;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9), 0 4px 15px rgba(86, 35, 15, 0.03);
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
 }
 
-.brand-logo h1 {
-    font-size: 1.7rem;
-    color: #56230f;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+.receipt-header h2 {
+    font-size: 20px;
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
-.brand-logo .brand-sub {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    color: #8b3a1b;
-    font-weight: 600;
+.receipt-tagline {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-light);
     display: block;
-    margin-top: 2px;
+    margin-bottom: 8px;
 }
 
-.status-badge {
+.badge-success {
     display: inline-block;
-    background: rgba(232, 245, 233, 0.9);
-    backdrop-filter: blur(4px);
-    color: #2e7d32;
-    padding: 4px 14px;
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
     border-radius: 20px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    margin: 10px 0 6px;
-    border: 1px solid rgba(46, 125, 50, 0.15);
+    margin-bottom: 10px;
 }
 
-.document-title {
-    color: #56230f;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    margin-top: 4px;
+.receipt-header h3 {
+    font-size: 14px;
+    color: var(--text-color);
+    margin-bottom: 2px;
 }
 
-.document-date {
-    color: #8b3a1b;
-    font-size: 0.78rem;
-    font-weight: 500;
-    margin-top: 2px;
+.receipt-date {
+    font-size: 11px;
+    color: var(--text-light);
 }
 
-.ticket-divider {
-    border-top: 1.5px dashed rgba(139, 58, 27, 0.2);
-    margin: 14px 0;
-}
-
-/* --- TABLA OPTIMIZADA --- */
-.table-responsive {
+.table-container {
     width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
+    margin-bottom: 12px;
 }
 
-.production-table {
+.receipt-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 5px;
-    text-align: left;
-    table-layout: fixed;
+    font-size: 11px;
 }
 
-.production-table th {
-    background-color: #56230f !important; 
-    color: #ffffff !important; 
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 10px 4px;
-    letter-spacing: 0.2px;
-    word-break: break-word;
+.receipt-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 4px;
+    text-align: center;
+    font-weight: 600;
 }
 
-.production-table td {
-    padding: 10px 4px;
-    border-bottom: 1px solid rgba(139, 58, 27, 0.1);
-    font-size: 0.78rem;
-    color: #56230f;
+.receipt-table th:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+.receipt-table th:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+.receipt-table td {
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
-    word-break: break-word;
-}
-
-#filaTotalGeneral {
-    background-color: #fbeee0 !important;
-    border-top: 2px solid #8b3a1b;
-}
-
-#filaTotalGeneral td {
-    font-weight: 700;
-    color: #56230f;
-    padding: 12px 6px;
-    font-size: 0.78rem;
-}
-
-/* Foto y Nombre unidos */
-.item-foto-nombre {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-}
-
-.table-thumb {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    object-fit: cover;
-    border: 1px solid rgba(139, 58, 27, 0.2);
-    background: #f1e4d3;
-}
-
-.col-prenda-mini {
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: #56230f;
-    text-align: center;
-    line-height: 1.1;
-    word-break: break-word;
-}
-
-.col-talla {
-    text-align: center;
-    font-weight: 700;
-    color: #8b3a1b;
-    font-size: 0.85rem;
-}
-
-.col-cantidad {
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #8b3a1b;
-}
-
-.col-detalles {
-    font-size: 0.75rem;
-    color: #724c3e;
-    line-height: 1.3;
 }
 
 .empty-state {
     text-align: center;
-    color: #a1887f;
-    padding: 30px 0 !important;
+    color: var(--text-light);
     font-style: italic;
+    padding: 16px !important;
 }
 
-/* Botones Inferiores */
-.action-bar {
+.table-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 2px auto;
+}
+
+.item-foto-nombre {
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-.btn-download {
-    flex: 2;
-    padding: 14px;
-    background-color: #2e7d32;
-    color: white;
-    border: none;
-    border-radius: 12px;
+.col-prenda-mini {
+    font-size: 10px;
     font-weight: 600;
-    cursor: pointer;
+    color: var(--text-color);
 }
 
-.btn-download:disabled {
-    background-color: #b0bec5;
-    cursor: not-allowed;
+.col-talla, .col-cantidad {
+    text-align: center;
+}
+
+.total-general-box {
+    background-color: #faf2e6;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.actions-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .btn-secondary {
-    flex: 1;
-    padding: 14px;
-    background: transparent;
-    color: #c62828;
-    border: 1.5px solid #c62828;
+    background-color: #9aa8b0;
+    color: white;
+    border: none;
     border-radius: 12px;
+    padding: 12px;
     font-weight: 600;
     cursor: pointer;
 }
 
-/* IMPRESIÓN */
+.btn-secondary:disabled {
+    background-color: #d1d8dc;
+    cursor: not-allowed;
+}
+
+.btn-danger-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Ocultar elementos innecesarios al imprimir el comprobante */
 @media print {
     body {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        padding: 0 !important;
+        background-color: white;
     }
-    .form-card, .action-bar {
+    .form-card, .actions-footer {
         display: none !important;
     }
     .app-container {
-        display: block !important;
-        max-width: 100% !important;
+        max-width: 100%;
     }
-    .comprobante-canvas {
-        box-shadow: none !important;
-        padding: 0 !important;
-        width: 100% !important;
-        border: none !important;
-    }
-    .comprobante-header {
-        background: #fbeee0 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-    .production-table th {
-        background-color: #56230f !important;
-        color: #ffffff !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-    #filaTotalGeneral {
-        background-color: #fbeee0 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+    .card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
     }
 }

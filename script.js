@@ -8,32 +8,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar fecha actual formateada
     const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const fechaFormat = new Date().toLocaleDateString('es-ES', opcionesFecha);
-    document.getElementById('fechaActual').textContent = fechaFormat;
+    const elemFecha = document.getElementById('fechaActual');
+    if (elemFecha) {
+        elemFecha.textContent = fechaFormat;
+    }
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        const nombre = document.getElementById('nombrePrenda').value.trim();
-        const talla = document.getElementById('tallaPrenda').value.trim();
-        const color = document.getElementById('colorPrenda').value.trim();
-        const cantidad = parseInt(document.getElementById('cantidadPrenda').value) || 1;
-        const observacion = document.getElementById('obsPrenda').value.trim();
-        const inputFoto = document.getElementById('fotoPrenda');
+            const nombreInput = document.getElementById('nombrePrenda');
+            const tallaInput = document.getElementById('tallaPrenda');
+            const colorInput = document.getElementById('colorPrenda');
+            const cantidadInput = document.getElementById('cantidadPrenda');
+            const obsInput = document.getElementById('obsPrenda');
+            const inputFoto = document.getElementById('fotoPrenda');
 
-        let fotoUrl = 'https://via.placeholder.com/40?text=Foto'; // Imagen por defecto si no suben archivo
+            const nombre = nombreInput ? nombreInput.value.trim() : '';
+            const talla = tallaInput ? tallaInput.value.trim() : '';
+            const color = colorInput ? colorInput.value.trim() : '';
+            const cantidad = cantidadInput ? (parseInt(cantidadInput.value) || 1) : 1;
+            const observacion = obsInput ? obsInput.value.trim() : '';
 
-        if (inputFoto.files && inputFoto.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                agregarItemLista(nombre, talla, color, cantidad, observacion, e.target.result);
+            // Imagen por defecto si no sube ninguna
+            let fotoUrl = 'https://via.placeholder.com/40?text=Foto';
+
+            if (inputFoto && inputFoto.files && inputFoto.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    agregarItemLista(nombre, talla, color, cantidad, observacion, event.target.result);
+                    form.reset();
+                };
+                reader.readAsDataURL(inputFoto.files[0]);
+            } else {
+                agregarItemLista(nombre, talla, color, cantidad, observacion, fotoUrl);
                 form.reset();
-            };
-            reader.readAsDataURL(inputFoto.files[0]);
-        } else {
-            agregarItemLista(nombre, talla, color, cantidad, observacion, fotoUrl);
-            form.reset();
-        }
-    });
+            }
+        });
+    }
 
     function agregarItemLista(nombre, talla, color, cantidad, observacion, foto) {
         listaPrendas.push({ nombre, talla, color, cantidad, observacion, foto });
@@ -44,22 +56,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.getElementById('tablaCuerpo');
         const totalCantidadEl = document.getElementById('totalCantidad');
         
+        if (!tbody) return;
         tbody.innerHTML = '';
 
         if (listaPrendas.length === 0) {
             tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No hay registros agregados aún.</td></tr>`;
-            totalCantidadEl.textContent = '0';
-            btnDescargar.disabled = true;
+            if (totalCantidadEl) totalCantidadEl.textContent = '0';
+            if (btnDescargar) btnDescargar.disabled = true;
             return;
         }
 
         let sumaTotal = 0;
 
-        listaPrendas.forEach((item, index) => {
+        listaPrendas.forEach((item) => {
             sumaTotal += item.cantidad;
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td style="text-align: center;">
+                <td>
                     <div class="item-foto-nombre">
                         <img src="${item.foto}" alt="${item.nombre}" class="table-thumb">
                         <span class="col-prenda-mini">${item.nombre}</span>
@@ -72,18 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
             tbody.appendChild(tr);
         });
 
-        totalCantidadEl.textContent = sumaTotal;
-        btnDescargar.disabled = false;
+        if (totalCantidadEl) totalCantidadEl.textContent = sumaTotal;
+        if (btnDescargar) btnDescargar.disabled = false;
     }
 
-    btnDescargar.addEventListener('click', () => {
-        window.print();
-    });
+    if (btnDescargar) {
+        btnDescargar.addEventListener('click', () => {
+            window.print();
+        });
+    }
 
-    btnLimpiar.addEventListener('click', () => {
-        if (confirm('¿Deseas limpiar todos los registros de la lista?')) {
-            listaPrendas = [];
-            actualizarTabla();
-        }
-    });
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', () => {
+            if (confirm('¿Deseas limpiar todos los registros de la lista?')) {
+                listaPrendas = [];
+                actualizarTabla();
+            }
+        });
+    }
 });
