@@ -132,8 +132,10 @@ input:focus, textarea:focus {
 .comprobante-canvas {
     background: #ffffff;
     border-radius: 24px;
-    padding: 25px 18px;
+    padding: 20px 12px;
     box-shadow: 0 10px 30px rgba(86, 35, 15, 0.05);
+    width: 100%;
+    overflow: hidden;
 }
 
 .comprobante-header {
@@ -165,10 +167,9 @@ input:focus, textarea:focus {
     margin: 12px 0 6px;
 }
 
-/* Título de tamaño sutil ideal para móviles */
 .document-title {
-    color: #56230f; 
-    font-size: 0.95rem; 
+    color: #56230f;
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -176,7 +177,7 @@ input:focus, textarea:focus {
 }
 
 .document-date {
-    color: #8b3a1b; /* Terracota */
+    color: #8b3a1b;
     font-size: 0.8rem;
     font-weight: 500;
     margin-top: 2px;
@@ -187,10 +188,10 @@ input:focus, textarea:focus {
     margin: 15px 0;
 }
 
-/* --- TABLA INTEGRADA A LA PALETA DE COLORES --- */
+/* --- TABLA OPTIMIZADA PARA MÓVIL Y UX --- */
 .table-responsive {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden; /* Evita scrolls laterales molestos */
 }
 
 .production-table {
@@ -198,25 +199,28 @@ input:focus, textarea:focus {
     border-collapse: collapse;
     margin-top: 10px;
     text-align: left;
+    table-layout: fixed; /* Fuerza a respetar los anchos asignados */
 }
 
-/* Cabecera estilo Pimienta Kids */
+/* 🔄 ENCABEZADO INVERTIDO: Fondo marrón oscuro y texto blanco */
 .production-table th {
-    background-color: #fbeee0; /* Fondo crema de la paleta */
-    color: #56230f; /* Letras marrón oscuro */
-    font-size: 0.8rem;
+    background-color: #56230f !important; 
+    color: #ffffff !important; 
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 12px 10px;
-    border-bottom: 2px solid rgba(139, 58, 27, 0.3); /* Borde terracota */
+    padding: 10px 6px;
+    letter-spacing: 0.3px;
+    word-break: break-word;
 }
 
 .production-table td {
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(139, 58, 27, 0.1); /* Líneas sutiles terracota */
-    font-size: 0.85rem;
+    padding: 10px 6px;
+    border-bottom: 1px solid rgba(139, 58, 27, 0.1);
+    font-size: 0.8rem;
     color: #56230f;
     vertical-align: middle;
+    word-break: break-word; /* Evita que textos largos rompan la caja */
 }
 
 .production-table tbody tr:hover {
@@ -232,14 +236,15 @@ input:focus, textarea:focus {
 #filaTotalGeneral td {
     font-weight: 700;
     color: #56230f;
-    padding: 14px 10px;
+    padding: 12px 6px;
+    font-size: 0.8rem;
 }
 
-/* Miniatura de imagen */
+/* Miniatura de imagen compacta para móvil */
 .table-thumb {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
     object-fit: cover;
     border: 1px solid rgba(139, 58, 27, 0.2);
     background: #f1e4d3;
@@ -249,25 +254,26 @@ input:focus, textarea:focus {
 .col-prenda {
     font-weight: 700;
     color: #56230f;
+    font-size: 0.8rem;
 }
 
 .col-cantidad {
     text-align: center;
     font-weight: 700;
-    font-size: 1.05rem;
-    color: #8b3a1b; /* Destacado en terracota */
+    font-size: 0.95rem;
+    color: #8b3a1b;
 }
 
 .col-detalles {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: #724c3e;
-    line-height: 1.4;
+    line-height: 1.35;
 }
 
 .empty-state {
     text-align: center;
     color: #a1887f;
-    padding: 40px 0 !important;
+    padding: 30px 0 !important;
     font-style: italic;
 }
 
@@ -280,7 +286,7 @@ input:focus, textarea:focus {
 .btn-download {
     flex: 2;
     padding: 14px;
-    background-color: #2e7d32; /* Verde para descargar */
+    background-color: #2e7d32;
     color: white;
     border: none;
     border-radius: 12px;
@@ -297,7 +303,7 @@ input:focus, textarea:focus {
     flex: 1;
     padding: 14px;
     background: transparent;
-    color: #c62828; /* Rojo para limpiar */
+    color: #c62828;
     border: 1.5px solid #c62828;
     border-radius: 12px;
     font-weight: 600;
@@ -312,7 +318,7 @@ input:focus, textarea:focus {
         padding: 0 !important;
     }
     .form-card, .action-bar {
-        display: none !important; 
+        display: none !important;
     }
     .app-container {
         display: block !important;
@@ -324,7 +330,8 @@ input:focus, textarea:focus {
         width: 100% !important;
     }
     .production-table th {
-        background-color: #fbeee0 !important;
+        background-color: #56230f !important;
+        color: #ffffff !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }

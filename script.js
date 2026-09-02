@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (file) {
             fileStatus.textContent = `📸 Cargada: ${file.name.substring(0, 12)}...`;
             uploadBox.style.borderColor = "#2e7d32";
-            
+
             const reader = new FileReader();
             reader.onload = function(event) {
                 fotoTemporalBase64 = event.target.result;
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const nombre = document.getElementById("nombrePrenda").value.toUpperCase();
         const cantidad = parseInt(document.getElementById("cantidad").value);
-        const detalles = document.getElementById("colorTalla").value;
+        const colorTalla = document.getElementById("colorTalla").value; // Talla y Color
         const descripcion = document.getElementById("descripcion").value;
 
         if (totalFilas === 0) {
@@ -46,7 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const imgSrc = fotoTemporalBase64 ? fotoTemporalBase64 : "https://placeholder.com";
-        const notasCompletas = descripcion ? `${detalles} — Obs: ${descripcion}` : detalles;
+        
+        // 📌 Aplicamos negrita a la talla y color, seguido de la observación adicional si existe
+        const notasCompletas = descripcion 
+            ? `<strong>${colorTalla}</strong> — Obs: ${descripcion}` 
+            : `<strong>${colorTalla}</strong>`;
 
         const fila = document.createElement("tr");
         fila.innerHTML = `
@@ -67,11 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const filaTotal = document.createElement("tr");
         filaTotal.id = "filaTotalGeneral";
-        filaTotal.style.backgroundColor = "#fbeee0";
-        filaTotal.style.fontWeight = "bold";
         filaTotal.innerHTML = `
             <td colspan="2" style="text-align: right; color: #56230f;">TOTAL GENERAL:</td>
-            <td style="text-align: center; color: #8b3a1b; font-size: 1.1rem;">${sumaTotalPrendas}</td>
+            <td style="text-align: center; color: #8b3a1b; font-size: 1rem;">${sumaTotalPrendas}</td>
             <td>prendas de salida</td>
         `;
         tablaCuerpo.appendChild(filaTotal);
@@ -82,9 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.style.borderColor = "#8b3a1b";
     });
 
-    // 🚀 MÉTODO DE ASISTENCIA NATIVA: Usa el sistema de guardado/impresión oficial del teléfono
+    // Método de asistencia nativa para imprimir / guardar PDF
     btnDownload.addEventListener("click", () => {
-        // Ejecuta la orden nativa del celular. Abrirá la ventana del sistema operativo
         window.print();
     });
 });

@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pimienta Kids - Panel de Producción</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Única librería requerida: Captura de pantalla nativa ultraliviana -->
     <script src="https://cloudflare.com"></script>
 </head>
 <body>
 
     <div class="app-container">
-        
+
         <!-- Formulario de Registro Izquierdo -->
         <div class="form-card">
             <header class="form-header">
@@ -31,8 +30,8 @@
                         <input type="number" id="cantidad" placeholder="0" min="1" required>
                     </div>
                     <div class="input-group">
-                        <label for="colorTalla">Talla /  Color</label>
-                        <input type="text" id="colorTalla" placeholder="Ej. Negro (- 2 por talla)" required>
+                        <label for="colorTalla">Talla / Color</label>
+                        <input type="text" id="colorTalla" placeholder="Ej. 8 / Negro" required>
                     </div>
                 </div>
 
@@ -57,32 +56,32 @@
 
         <!-- Comprobante en Formato Tabla Derecha -->
         <div class="preview-card">
-            
+
             <div id="comprobanteCaptureArea" class="comprobante-canvas">
-                
+
                 <div class="comprobante-header">
                     <div class="brand-logo">
                         <h1>Pimienta Kids</h1>
                         <span class="brand-sub">Gestión & Sistema</span>
                     </div>
-                    
+
                     <div class="status-badge">✓ REGISTRO EXITOSO</div>
-                    
+
                     <h2 class="document-title">COMPROBANTE DE PRODUCCIÓN</h2>
                     <p class="document-date" id="comprobanteFecha">Cargando fecha...</p>
-                    
+
                     <div class="ticket-divider"></div>
                 </div>
 
-                <!-- TABLA DE CONTROL MINIMALISTA -->
+                <!-- TABLA DE CONTROL MEJORADA (UX) -->
                 <div class="table-responsive">
                     <table class="production-table">
                         <thead>
                             <tr>
-                                <th style="width: 70px;">Muestra</th>
-                                <th>Prenda</th>
-                                <th style="width: 80px; text-align: center;">Cant.</th>
-                                <th>Detalles y Descripción</th>
+                                <th style="width: 15%;">Muestra</th>
+                                <th style="width: 30%;">Prenda</th>
+                                <th style="width: 15%; text-align: center;">Cant.</th>
+                                <th style="width: 40%;">Detalles y Descripción</th>
                             </tr>
                         </thead>
                         <tbody id="tablaCuerpoPrendas">
