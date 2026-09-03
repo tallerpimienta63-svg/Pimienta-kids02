@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         actualizarTabla();
     }
 
-    function actualizarTabla() {
+        function actualizarTabla() {
         const tbody = document.getElementById('tablaCuerpo');
         const totalCantidadEl = document.getElementById('totalCantidad');
         
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sumaTotal += item.cantidad;
             const tr = document.createElement('tr');
             
-            // Solo color y observaciones (sin repetir la talla)
+            // AQUÍ ESTÁ EL CAMBIO CLAVE: Solo mostramos estrictamente el color y la observación
             let textoDetalles = `<strong>${item.color}</strong>`;
             if (item.observacion) {
                 textoDetalles += `<br>Obs: ${item.observacion}`;
