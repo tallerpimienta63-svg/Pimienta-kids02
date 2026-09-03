@@ -71,6 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
         listaPrendas.forEach((item) => {
             sumaTotal += item.cantidad;
             const tr = document.createElement('tr');
+            
+            // Solo color y observaciones (sin repetir la talla)
+            let textoDetalles = `<strong>${item.color}</strong>`;
+            if (item.observacion) {
+                textoDetalles += `<br>Obs: ${item.observacion}`;
+            }
+
             tr.innerHTML = `
                 <td>
                     <div class="item-foto-nombre">
@@ -80,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td class="col-talla">${item.talla}</td>
                 <td class="col-cantidad">${item.cantidad}</td>
-                <td class="col-detalles"><strong>${item.talla} - ${item.color}</strong><br>Obs: ${item.observacion || '-'}</td>
+                <td class="col-detalles">${textoDetalles}</td>
             `;
             tbody.appendChild(tr);
         });

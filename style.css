@@ -1,11 +1,12 @@
 :root {
     --bg-main: #f5efe6;
     --card-bg: #fffbf7;
+    --header-inner-bg: #fdf7f0;
     --primary-color: #8c4a32;
     --primary-hover: #733c28;
     --text-color: #3b2f2f;
     --text-light: #706060;
-    --border-color: #e3d5c6;
+    --border-color: #eadecd;
     --success-bg: #e6f4ea;
     --success-text: #137333;
 }
@@ -20,37 +21,37 @@
 body {
     background-color: var(--bg-main);
     color: var(--text-color);
-    padding: 16px;
+    padding: 14px;
     display: flex;
     justify-content: center;
 }
 
 .app-container {
     width: 100%;
-    max-width: 480px;
+    max-width: 440px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
 .card {
     background-color: var(--card-bg);
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 20px rgba(140, 74, 50, 0.04);
     border: 1px solid var(--border-color);
 }
 
 .form-card h2 {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--primary-color);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .subtitle {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-light);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .input-group {
@@ -60,7 +61,7 @@ body {
 }
 
 .input-group label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     margin-bottom: 4px;
     color: var(--text-color);
@@ -68,11 +69,12 @@ body {
 
 .input-group input, 
 .input-group textarea {
+    width: 100%;
     padding: 10px 12px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px solid var(--border-color);
     background-color: #faf5ed;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-color);
     outline: none;
     transition: border-color 0.2s;
@@ -85,7 +87,7 @@ body {
 
 .input-group textarea {
     resize: vertical;
-    min-height: 60px;
+    min-height: 56px;
 }
 
 .form-row {
@@ -100,71 +102,76 @@ body {
     justify-content: center;
     padding: 10px;
     border: 2px dashed var(--primary-color);
-    border-radius: 10px;
+    border-radius: 12px;
     background-color: #faf5ed;
     color: var(--primary-color);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     text-align: center;
     height: 42px;
+    width: 100%;
 }
 
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px;
     width: 100%;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.2s;
+    margin-top: 6px;
+    box-shadow: 0 4px 12px rgba(140, 74, 50, 0.2);
 }
 
 .btn-primary:active {
     background-color: var(--primary-hover);
 }
 
-/* RECIBO */
+/* RECIBO / COMPROBANTE CON ESTILO DE TARJETA INTERIOR */
+.receipt-card {
+    background-color: var(--card-bg);
+}
+
 .receipt-header {
+    background-color: var(--header-inner-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px 12px;
     text-align: center;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.01);
 }
 
 .receipt-header h2 {
-    font-size: 20px;
+    font-size: 22px;
     color: var(--primary-color);
     font-weight: 700;
-}
-
-.receipt-tagline {
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--text-light);
-    display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
 }
 
 .badge-success {
     display: inline-block;
     background-color: var(--success-bg);
     color: var(--success-text);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    padding: 4px 10px;
+    padding: 3px 10px;
     border-radius: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
 }
 
 .receipt-header h3 {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-color);
+    font-weight: 600;
     margin-bottom: 2px;
+    letter-spacing: 0.5px;
 }
 
 .receipt-date {
@@ -187,16 +194,18 @@ body {
 .receipt-table th {
     background-color: var(--primary-color);
     color: white;
-    padding: 8px 4px;
+    padding: 8px 6px;
     text-align: center;
     font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.3px;
 }
 
-.receipt-table th:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-.receipt-table th:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+.receipt-table th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+.receipt-table th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
 
 .receipt-table td {
-    padding: 8px 4px;
+    padding: 10px 6px;
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
 }
@@ -215,6 +224,7 @@ body {
     object-fit: cover;
     display: block;
     margin: 0 auto 2px auto;
+    border: 1px solid var(--border-color);
 }
 
 .item-foto-nombre {
@@ -232,39 +242,43 @@ body {
 
 .col-talla, .col-cantidad {
     text-align: center;
+    font-weight: 500;
 }
 
 .total-general-box {
     background-color: #faf2e6;
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .actions-footer {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .btn-secondary {
-    background-color: #9aa8b0;
+    background-color: #2e7d32;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px;
     font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
 }
 
 .btn-secondary:disabled {
     background-color: #d1d8dc;
+    box-shadow: none;
     cursor: not-allowed;
 }
 
@@ -272,13 +286,13 @@ body {
     background-color: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px;
     font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
 }
 
-/* Ocultar elementos innecesarios al imprimir el comprobante */
 @media print {
     body {
         background-color: white;
